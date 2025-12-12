@@ -1,0 +1,36 @@
+{
+  "presets": [
+    {
+      "id": "catJam",
+      "label": "Cat Jam (GIF)",
+      "rruptType": "gif",
+      "rruptUrl": "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"
+    },
+    {
+      "id": "danceParrot",
+      "label": "Party Parrot (GIF)",
+      "rruptType": "gif",
+      "rruptUrl": "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif"
+    },
+    {
+      "id": "excitedDog",
+      "label": "Excited Dog (GIF)",
+      "rruptType": "gif",
+      "rruptUrl": "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif"
+    },
+    {
+      "id": "airhornSound",
+      "label": "Airhorn (sound URL)",
+      "rruptType": "sound",
+      "rruptUrl": "https://actions.google.com/sounds/v1/alarms/airhorn.ogg"
+    },
+    {
+      "id": "buzzerSound",
+      "label": "Buzzer (sound URL)",
+      "rruptType": "sound",
+      "rruptUrl": "https://actions.google.com/sounds/v1/alarms/buzzer.ogg"
+    }
+  ]
+}
+
+

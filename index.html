@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ff3fb4" />
+    <title>RRUPT</title>
+
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        color-scheme: dark light;
+        --bg1: #ff3fb4;
+        --bg2: #ffd43b;
+        --bg3: #2ee9ff;
+        --ink: rgba(10, 10, 15, 0.92);
+        --paper: rgba(255, 255, 255, 0.92);
+        --card: rgba(255, 255, 255, 0.72);
+        --shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+        --radius: 22px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Fredoka", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        background: radial-gradient(1200px 700px at 10% 10%, rgba(255, 255, 255, 0.35), transparent 60%),
+          linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+        background-attachment: fixed;
+      }
+
+      @keyframes floaty {
+        0% {
+          transform: translateY(0) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-3px) rotate(1deg);
+        }
+        100% {
+          transform: translateY(0) rotate(-1deg);
+        }
+      }
+
+      @keyframes popIn {
+        0% {
+          transform: translateY(10px) scale(0.98);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+      }
+
+      .app {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        padding: 18px 16px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: var(--shadow);
+        display: grid;
+        place-items: center;
+        user-select: none;
+        animation: floaty 2.7s ease-in-out infinite;
+      }
+
+      .logo span {
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .title {
+        line-height: 1.1;
+      }
+
+      .title h1 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 0.02em;
+      }
+
+      .title p {
+        margin: 0;
+        opacity: 0.75;
+        font-size: 12px;
+      }
+
+      main {
+        flex: 1;
+        padding: 10px 16px 18px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .panel {
+        width: 100%;
+        max-width: 760px;
+        background: var(--card);
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+        padding: 16px;
+        animation: popIn 220ms ease-out both;
+      }
+
+      .muted {
+        opacity: 0.75;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .btnRow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      button,
+      a.btn {
+        appearance: none;
+        border: 0;
+        font: inherit;
+        cursor: pointer;
+        border-radius: 18px;
+        padding: 12px 14px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--ink);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+        transition: transform 120ms ease, filter 120ms ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button:focus-visible,
+      a.btn:focus-visible {
+        outline: 3px solid rgba(0, 0, 0, 0.35);
+        outline-offset: 2px;
+      }
+
+      button:active,
+      a.btn:active {
+        transform: translateY(2px) rotate(-0.3deg);
+        filter: brightness(0.98);
+      }
+
+      button.primary,
+      a.btn.primary {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.75));
+        border: 2px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .nav {
+        display: flex;
+        gap: 10px;
+      }
+
+      .nav a {
+        opacity: 0.9;
+      }
+
+      .hr {
+        height: 1px;
+        background: rgba(0, 0, 0, 0.12);
+        margin: 12px 0;
+      }
+
+      .fullScreen {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: radial-gradient(1200px 700px at 15% 10%, rgba(255, 255, 255, 0.35), transparent 60%),
+          linear-gradient(135deg, var(--bg3), var(--bg1), var(--bg2));
+        z-index: 50;
+      }
+
+      .fullScreen[data-open="true"] {
+        display: flex;
+      }
+
+      .rruptCard {
+        width: min(920px, 100%);
+        background: rgba(255, 255, 255, 0.88);
+        border-radius: 28px;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
+        padding: 14px;
+        animation: popIn 180ms ease-out both;
+      }
+
+      .rruptMedia {
+        width: 100%;
+        border-radius: 18px;
+        background: rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        aspect-ratio: 16 / 10;
+        display: grid;
+        place-items: center;
+      }
+
+      .rruptMedia img,
+      .rruptMedia video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .rruptHeader {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 4px 10px;
+      }
+
+      .rruptHeader h2 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      .rruptHeader .time {
+        opacity: 0.75;
+        font-size: 12px;
+      }
+
+      .rruptActions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 12px 4px 2px;
+      }
+
+      .tiny {
+        font-size: 12px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"><span>R</span></div>
+          <div class="title">
+            <h1>RRUPT</h1>
+            <p>delightfully annoying reminders</p>
+          </div>
+        </div>
+        <nav class="nav pill" aria-label="Primary">
+          <a class="btn" href="#/list">Upcoming</a>
+          <a class="btn primary" href="#/create">+ New</a>
+        </nav>
+      </header>
+
+      <main>
+        <div id="panel" class="panel">
+          <div class="pill">
+            <strong>Loading…</strong>
+            <span class="muted tiny" id="bootStatus">Starting RRUPT</span>
+          </div>
+          <div class="hr"></div>
+          <div class="muted tiny">
+            If you see this for long: your browser might be blocking localStorage or service workers.
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="rruptOverlay" class="fullScreen" data-open="false" aria-hidden="true">
+      <div class="rruptCard" role="dialog" aria-modal="true" aria-label="RRUPT reminder">
+        <div class="rruptHeader">
+          <div>
+            <h2 id="rruptTitle">RRUPT!</h2>
+            <div class="time" id="rruptTime"></div>
+          </div>
+          <div class="pill tiny" id="rruptType">type</div>
+        </div>
+        <div class="rruptMedia" id="rruptMedia"></div>
+        <div class="rruptActions">
+          <button id="dismissBtn" class="primary">Dismiss</button>
+          <button id="snoozeBtn">Snooze 5min</button>
+          <a id="backToListBtn" class="btn" href="#/list">Back</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        const $ = (sel) => document.querySelector(sel);
+        const panel = $("#panel");
+        const bootStatus = $("#bootStatus");
+        const rruptOverlay = $("#rruptOverlay");
+        const rruptTitle = $("#rruptTitle");
+        const rruptTime = $("#rruptTime");
+        const rruptTypeEl = $("#rruptType");
+        const rruptMedia = $("#rruptMedia");
+        const dismissBtn = $("#dismissBtn");
+        const snoozeBtn = $("#snoozeBtn");
+
+        const LS_KEYS = {
+          interruptions: "rrupt.interruptions.v1",
+          notifPermission: "rrupt.notifications.permission"
+        };
+
+        const state = {
+          swReg: null,
+          presets: null
+        };
+
+        function safeJsonParse(str, fallback) {
+          try {
+            return JSON.parse(str);
+          } catch {
+            return fallback;
+          }
+        }
+
+        function uuid() {
+          if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+          return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        }
+
+        function isIsoString(value) {
+          return typeof value === "string" && !Number.isNaN(Date.parse(value));
+        }
+
+        function normalizeInterruption(raw) {
+          if (!raw || typeof raw !== "object") return null;
+          const id = typeof raw.id === "string" ? raw.id : uuid();
+          const title = typeof raw.title === "string" ? raw.title : "";
+          const datetime = isIsoString(raw.datetime) ? raw.datetime : null;
+          if (!datetime) return null;
+          const notes = typeof raw.notes === "string" ? raw.notes : "";
+          const rruptType = raw.rruptType === "gif" || raw.rruptType === "sound" || raw.rruptType === "video" ? raw.rruptType : "gif";
+          const rruptUrl = typeof raw.rruptUrl === "string" ? raw.rruptUrl : "";
+          const snoozedUntil = raw.snoozedUntil === null || isIsoString(raw.snoozedUntil) ? raw.snoozedUntil : null;
+
+          return { id, title, datetime, notes, rruptType, rruptUrl, snoozedUntil };
+        }
+
+        function loadInterruptions() {
+          const raw = localStorage.getItem(LS_KEYS.interruptions);
+          const arr = safeJsonParse(raw || "[]", []);
+          if (!Array.isArray(arr)) return [];
+          return arr.map(normalizeInterruption).filter(Boolean);
+        }
+
+        function saveInterruptions(items) {
+          localStorage.setItem(LS_KEYS.interruptions, JSON.stringify(items));
+        }
+
+        function addInterruption(input) {
+          const base = normalizeInterruption({ ...input, id: uuid(), snoozedUntil: null });
+          if (!base) throw new Error("Invalid interruption");
+          const items = loadInterruptions();
+          items.push(base);
+          saveInterruptions(items);
+          window.dispatchEvent(new Event("rrupt:dataChanged"));
+          return base;
+        }
+
+        function updateInterruption(id, patch) {
+          const items = loadInterruptions();
+          const idx = items.findIndex((x) => x.id === id);
+          if (idx === -1) return null;
+          const next = normalizeInterruption({ ...items[idx], ...patch, id: items[idx].id });
+          if (!next) throw new Error("Invalid interruption patch");
+          items[idx] = next;
+          saveInterruptions(items);
+          window.dispatchEvent(new Event("rrupt:dataChanged"));
+          return next;
+        }
+
+        function deleteInterruption(id) {
+          const items = loadInterruptions();
+          const next = items.filter((x) => x.id !== id);
+          if (next.length === items.length) return false;
+          saveInterruptions(next);
+          window.dispatchEvent(new Event("rrupt:dataChanged"));
+          return true;
+        }
+
+        function getFireMs(item) {
+          const iso = item.snoozedUntil || item.datetime;
+          return Date.parse(iso);
+        }
+
+        function fmtWhen(ms) {
+          try {
+            return new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(ms));
+          } catch {
+            return new Date(ms).toLocaleString();
+          }
+        }
+
+        function escapeHtml(s) {
+          return String(s)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+        }
+
+        function parseHash() {
+          const raw = location.hash || "#/list";
+          const hash = raw.startsWith("#") ? raw.slice(1) : raw;
+          const [pathPart, queryPart] = hash.split("?");
+          const path = pathPart || "/list";
+          const params = new URLSearchParams(queryPart || "");
+          return { path, params };
+        }
+
+        async function loadPresets() {
+          if (state.presets) return state.presets;
+          try {
+            const res = await fetch("/assets/presets.json", { cache: "no-cache" });
+            const json = await res.json();
+            const presets = Array.isArray(json.presets) ? json.presets : [];
+            state.presets = presets;
+            return presets;
+          } catch (err) {
+            console.warn("Failed to load presets", err);
+            state.presets = [];
+            return [];
+          }
+        }
+
+        async function registerSW() {
+          if (!("serviceWorker" in navigator)) return { ok: false, reason: "no-sw" };
+          try {
+            const reg = await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+            return { ok: true, reg };
+          } catch (err) {
+            console.warn("SW register failed", err);
+            return { ok: false, reason: "sw-register-failed", err };
+          }
+        }
+
+        function closeRruptOverlay() {
+          rruptOverlay.dataset.open = "false";
+          rruptOverlay.setAttribute("aria-hidden", "true");
+          rruptMedia.innerHTML = "";
+        }
+
+        function openRruptOverlay(item) {
+          const fireMs = getFireMs(item);
+          rruptTitle.textContent = item.title || "RRUPT!";
+          rruptTime.textContent = fmtWhen(fireMs);
+          rruptTypeEl.textContent = item.rruptType;
+          rruptMedia.innerHTML = "";
+
+          if (item.rruptType === "gif") {
+            const img = document.createElement("img");
+            img.alt = item.title || "RRUPT GIF";
+            img.src = item.rruptUrl;
+            rruptMedia.appendChild(img);
+          } else if (item.rruptType === "video") {
+            const v = document.createElement("video");
+            v.src = item.rruptUrl;
+            v.autoplay = true;
+            v.loop = true;
+            v.muted = false;
+            v.controls = true;
+            v.playsInline = true;
+            rruptMedia.appendChild(v);
+          } else if (item.rruptType === "sound") {
+            const wrap = document.createElement("div");
+            wrap.style.padding = "14px";
+            wrap.innerHTML = `
+              <div class="pill" style="justify-content: space-between; width: 100%;">
+                <strong>LOUD MODE</strong>
+                <span class="muted tiny">tap play if it doesn’t auto-start</span>
+              </div>
+              <div style="height: 10px;"></div>
+            `;
+            const audio = document.createElement("audio");
+            audio.src = item.rruptUrl;
+            audio.autoplay = true;
+            audio.loop = true;
+            audio.controls = true;
+            audio.preload = "auto";
+            audio.style.width = "100%";
+            wrap.appendChild(audio);
+            rruptMedia.appendChild(wrap);
+          } else {
+            rruptMedia.textContent = "Unknown rrupt type.";
+          }
+
+          rruptOverlay.dataset.open = "true";
+          rruptOverlay.setAttribute("aria-hidden", "false");
+        }
+
+        function renderPermissionView() {
+          const current = typeof Notification !== "undefined" ? Notification.permission : "unsupported";
+          panel.innerHTML = `
+            <div class="pill">
+              <strong>Enable notifications</strong>
+              <span class="muted tiny">RRUPT works best when it can poke you.</span>
+            </div>
+            <div class="hr"></div>
+            <p class="muted">We’ll only send notifications for reminders you create on this device.</p>
+            <div class="btnRow">
+              <button class="primary" id="enableNotifBtn">Enable notifications</button>
+              <a class="btn" href="#/list">Not now</a>
+            </div>
+            <div class="hr"></div>
+            <div class="muted tiny">Current permission: <strong>${escapeHtml(current)}</strong></div>
+          `;
+
+          const btn = $("#enableNotifBtn");
+          btn?.addEventListener("click", async () => {
+            if (typeof Notification === "undefined") {
+              alert("Notifications are not supported in this browser.");
+              return;
+            }
+            const perm = await Notification.requestPermission();
+            localStorage.setItem(LS_KEYS.notifPermission, perm);
+            location.hash = "#/list";
+          });
+        }
+
+        function toIsoFromDatetimeLocal(dtLocal) {
+          // dtLocal is "YYYY-MM-DDTHH:mm" (local time). Build a local Date explicitly.
+          const parts = String(dtLocal).split("T");
+          if (parts.length !== 2) return null;
+          const [d, t] = parts;
+          const [yy, mm, dd] = d.split("-").map((x) => Number(x));
+          const [hh, mi] = t.split(":").map((x) => Number(x));
+          if ([yy, mm, dd, hh, mi].some((n) => Number.isNaN(n))) return null;
+          const local = new Date(yy, mm - 1, dd, hh, mi, 0, 0);
+          if (Number.isNaN(local.getTime())) return null;
+          return local.toISOString();
+        }
+
+        async function renderCreateView() {
+          const presets = await loadPresets();
+          const presetOptions = presets
+            .map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.label)}</option>`)
+            .join("");
+
+          panel.innerHTML = `
+            <div class="pill">
+              <strong>New interruption</strong>
+              <span class="muted tiny">Set a time. Pick a rrupt. Get bonked.</span>
+            </div>
+            <div class="hr"></div>
+
+            <form id="createForm">
+              <label class="muted tiny">Title</label>
+              <input id="titleInput" required placeholder="Take meds" style="width:100%; padding:12px 14px; border-radius:18px; border:1px solid rgba(0,0,0,0.12); font:inherit; margin:6px 0 12px;" />
+
+              <label class="muted tiny">When</label>
+              <input id="dtInput" type="datetime-local" required style="width:100%; padding:12px 14px; border-radius:18px; border:1px solid rgba(0,0,0,0.12); font:inherit; margin:6px 0 12px;" />
+
+              <label class="muted tiny">Notes (optional)</label>
+              <textarea id="notesInput" rows="3" placeholder="Why this matters…" style="width:100%; padding:12px 14px; border-radius:18px; border:1px solid rgba(0,0,0,0.12); font:inherit; margin:6px 0 12px; resize: vertical;"></textarea>
+
+              <div class="pill" style="width:100%; justify-content: space-between;">
+                <strong>Rrupt picker</strong>
+                <span class="muted tiny">preset or custom URL</span>
+              </div>
+              <div style="height:10px;"></div>
+
+              <label class="muted tiny">Preset</label>
+              <select id="presetSelect" style="width:100%; padding:12px 14px; border-radius:18px; border:1px solid rgba(0,0,0,0.12); font:inherit; margin:6px 0 12px;">
+                <option value="">(choose)</option>
+                ${presetOptions}
+              </select>
+
+              <div class="btnRow" style="margin: 0 0 12px;">
+                <button type="button" id="typeGifBtn" class="btn">GIF</button>
+                <button type="button" id="typeSoundBtn" class="btn">Sound</button>
+                <button type="button" id="typeVideoBtn" class="btn">Video</button>
+              </div>
+
+              <label class="muted tiny">Media URL</label>
+              <input id="urlInput" required placeholder="https://…" style="width:100%; padding:12px 14px; border-radius:18px; border:1px solid rgba(0,0,0,0.12); font:inherit; margin:6px 0 12px;" />
+
+              <div class="btnRow">
+                <button type="submit" class="primary">Save interruption</button>
+                <a class="btn" href="#/list">Cancel</a>
+              </div>
+            </form>
+          `;
+
+          let rruptType = "gif";
+          const setType = (t) => {
+            rruptType = t;
+            $("#typeGifBtn").classList.toggle("primary", t === "gif");
+            $("#typeSoundBtn").classList.toggle("primary", t === "sound");
+            $("#typeVideoBtn").classList.toggle("primary", t === "video");
+          };
+          setType("gif");
+
+          $("#typeGifBtn").addEventListener("click", () => setType("gif"));
+          $("#typeSoundBtn").addEventListener("click", () => setType("sound"));
+          $("#typeVideoBtn").addEventListener("click", () => setType("video"));
+
+          const presetSelect = $("#presetSelect");
+          presetSelect?.addEventListener("change", () => {
+            const id = presetSelect.value;
+            const chosen = presets.find((p) => p.id === id);
+            if (!chosen) return;
+            setType(chosen.rruptType);
+            $("#urlInput").value = chosen.rruptUrl;
+          });
+
+          const form = $("#createForm");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const title = $("#titleInput").value.trim();
+            const dtLocal = $("#dtInput").value;
+            const notes = $("#notesInput").value.trim();
+            const url = $("#urlInput").value.trim();
+
+            if (!title) return alert("Please enter a title.");
+            const iso = toIsoFromDatetimeLocal(dtLocal);
+            if (!iso) return alert("Please choose a valid date/time.");
+            if (!url) return alert("Please provide a media URL (or pick a preset).");
+
+            addInterruption({
+              title,
+              datetime: iso,
+              notes,
+              rruptType,
+              rruptUrl: url,
+              snoozedUntil: null
+            });
+            location.hash = "#/list";
+          });
+        }
+
+        function renderListView() {
+          const items = loadInterruptions().slice().sort((a, b) => getFireMs(a) - getFireMs(b));
+          const now = Date.now();
+          const rows =
+            items.length === 0
+              ? `<div class="muted">No interruptions yet. Make one and future-you will get bonked.</div>`
+              : items
+                  .map((it) => {
+                    const ms = getFireMs(it);
+                    const isPast = ms <= now;
+                    const badge = it.rruptType.toUpperCase();
+                    return `
+                      <div class="pill" data-id="${escapeHtml(it.id)}" style="width:100%; justify-content: space-between; margin: 0 0 10px;">
+                        <div style="min-width: 0;">
+                          <div style="font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(
+                            it.title || "(untitled)"
+                          )}</div>
+                          <div class="muted tiny">${escapeHtml(fmtWhen(ms))}${isPast ? " • DUE" : ""}</div>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center; flex-shrink: 0;">
+                          <span class="pill tiny" style="padding:6px 10px;">${escapeHtml(badge)}</span>
+                          <a class="btn tiny" href="#/rrupt?id=${encodeURIComponent(it.id)}">View</a>
+                          <button class="btn tiny" data-action="delete">Delete</button>
+                        </div>
+                      </div>
+                    `;
+                  })
+                  .join("");
+
+          const perm = typeof Notification !== "undefined" ? Notification.permission : "unsupported";
+          panel.innerHTML = `
+            <div class="pill" style="justify-content: space-between; width: 100%;">
+              <div><strong>Upcoming</strong> <span class="muted tiny">(${items.length})</span></div>
+              <div class="muted tiny">Notifications: <strong>${escapeHtml(perm)}</strong></div>
+            </div>
+            <div class="hr"></div>
+            <div class="btnRow" style="margin-bottom: 12px;">
+              <a class="btn primary" href="#/create">+ New interruption</a>
+              <a class="btn" href="#/permissions">Permissions</a>
+            </div>
+            ${rows}
+          `;
+
+          panel.querySelectorAll('[data-action="delete"]').forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const row = btn.closest("[data-id]");
+              const id = row?.getAttribute("data-id");
+              if (!id) return;
+              if (!confirm("Delete this interruption?")) return;
+              deleteInterruption(id);
+              renderListView();
+            });
+          });
+        }
+
+        function renderRruptRoute(id) {
+          const item = loadInterruptions().find((x) => x.id === id);
+          if (!item) {
+            closeRruptOverlay();
+            panel.innerHTML = `
+              <div class="pill"><strong>Not found</strong><span class="muted tiny">That interruption doesn’t exist.</span></div>
+              <div class="hr"></div>
+              <a class="btn primary" href="#/list">Back to list</a>
+            `;
+            return;
+          }
+          openRruptOverlay(item);
+
+          dismissBtn.onclick = () => {
+            deleteInterruption(item.id);
+            closeRruptOverlay();
+            location.hash = "#/list";
+          };
+
+          snoozeBtn.onclick = () => {
+            const until = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+            updateInterruption(item.id, { snoozedUntil: until });
+            closeRruptOverlay();
+            location.hash = "#/list";
+          };
+
+          // Keep panel context visible behind overlay.
+          renderListView();
+        }
+
+        async function renderRoute() {
+          const { path, params } = parseHash();
+          closeRruptOverlay();
+
+          if (path === "/permissions") {
+            renderPermissionView();
+            return;
+          }
+
+          if (path === "/create") {
+            await renderCreateView();
+            return;
+          }
+
+          if (path === "/rrupt") {
+            const id = params.get("id") || "";
+            const action = params.get("action");
+            if (action === "snooze5" && id) {
+              const until = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+              updateInterruption(id, { snoozedUntil: until });
+              location.hash = "#/list";
+              return;
+            }
+            renderRruptRoute(id);
+            return;
+          }
+
+          renderListView();
+        }
+
+        // Scheduling (best effort): runs only while the page is open.
+        let scheduleTimer = null;
+        const MAX_TIMEOUT_MS = 2147483000; // ~24.8 days (safe setTimeout cap)
+        const notifiedFireKeys = new Set();
+
+        async function showDueNotification(item) {
+          if (typeof Notification === "undefined") return false;
+          if (Notification.permission !== "granted") return false;
+
+          const title = item.title || "RRUPT!";
+          const when = fmtWhen(getFireMs(item));
+          const options = {
+            body: when,
+            icon: "/assets/icon.svg",
+            badge: "/assets/icon.svg",
+            tag: `rrupt-${item.id}`,
+            renotify: true,
+            data: { id: item.id },
+            actions: [
+              { action: "view", title: "View" },
+              { action: "snooze5", title: "Snooze 5min" }
+            ]
+          };
+
+          try {
+            if (state.swReg && state.swReg.showNotification) {
+              await state.swReg.showNotification(title, options);
+              return true;
+            }
+            // Fallback (no actions on some browsers)
+            // eslint-disable-next-line no-new
+            new Notification(title, options);
+            return true;
+          } catch (err) {
+            console.warn("Notification failed", err);
+            return false;
+          }
+        }
+
+        function getSortedByFire() {
+          return loadInterruptions().slice().sort((a, b) => getFireMs(a) - getFireMs(b));
+        }
+
+        function getEarliestDue(nowMs) {
+          const items = getSortedByFire();
+          return items.find((x) => getFireMs(x) <= nowMs) || null;
+        }
+
+        function getNextUpcoming(nowMs) {
+          const items = getSortedByFire();
+          return items.find((x) => getFireMs(x) > nowMs) || null;
+        }
+
+        function scheduleNextTick() {
+          if (scheduleTimer) {
+            clearTimeout(scheduleTimer);
+            scheduleTimer = null;
+          }
+
+          const now = Date.now();
+          const due = getEarliestDue(now);
+          if (due) {
+            const fireKey = `${due.id}:${getFireMs(due)}`;
+            if (!notifiedFireKeys.has(fireKey)) {
+              notifiedFireKeys.add(fireKey);
+              void showDueNotification(due);
+            }
+            // Catch-up: immediately surface the earliest due interruption.
+            const { path } = parseHash();
+            if (path !== "/rrupt") {
+              location.hash = `#/rrupt?id=${encodeURIComponent(due.id)}`;
+            }
+            return;
+          }
+
+          const next = getNextUpcoming(now);
+          if (!next) return;
+
+          const wait = Math.max(0, getFireMs(next) - now);
+          const chunk = Math.min(wait, MAX_TIMEOUT_MS);
+          scheduleTimer = setTimeout(() => {
+            // Re-check at fire time (or chunk boundary).
+            scheduleNextTick();
+          }, chunk);
+        }
+
+        (async function boot() {
+          bootStatus.textContent = "Registering service worker…";
+          const sw = await registerSW();
+          bootStatus.textContent = sw.ok ? "Service worker ready." : "Service worker unavailable.";
+          state.swReg = sw.ok ? sw.reg : null;
+
+          // Listen for SW navigation requests (notification clicks, etc.)
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.addEventListener("message", (evt) => {
+              const msg = evt.data;
+              if (msg && msg.type === "RRUPT_NAVIGATE" && typeof msg.target === "string") {
+                // msg.target is like "/#/rrupt?id=..."
+                const i = msg.target.indexOf("#");
+                if (i !== -1) location.hash = msg.target.slice(i);
+              }
+            });
+          }
+
+          // Permission flow: on first visit, guide user to permissions.
+          try {
+            const current = typeof Notification !== "undefined" ? Notification.permission : "unsupported";
+            localStorage.setItem(LS_KEYS.notifPermission, current);
+            if ((location.hash === "" || location.hash === "#") && current === "default") {
+              location.hash = "#/permissions";
+            }
+          } catch {
+            // ignore
+          }
+
+          window.addEventListener("hashchange", renderRoute);
+          window.addEventListener("rrupt:dataChanged", () => scheduleNextTick());
+          document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) scheduleNextTick();
+          });
+          await renderRoute();
+          scheduleNextTick();
+        })();
+      })();
+    </script>
+  </body>
+</html>
+
+
